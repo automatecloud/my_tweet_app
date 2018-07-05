@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+    my_tweet_app:
+        image: automatecloud/my-tweet-app:latest
+        deploy:
+            mode: replicated
+            replicas: 2
+            labels:
+                com.docker.ucp.mesh.http.5000: "external_route=http://tweetapp-automatecloud.westeurope.cloudapp.azure.com,internal_port=5000"
+        ports:
+            - 8087:5000
+        networks:
+            - my_tweet_app
+            - ucp-interlock
+
+networks:
+    my_tweet_app:
+    ucp-interlock:
+        external: true
